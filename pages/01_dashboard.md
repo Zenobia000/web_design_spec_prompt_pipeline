@@ -1,194 +1,176 @@
-# 📄 Page-Level Prompt: 首頁儀表板
+# Page-Level Prompt: Sunny AI Hub 首頁儀表板
+
+> 範例：展示如何使用 `page_template.md` 填寫一個完整的頁面規格。
+
+---
 
 ## [PAGE META]
-- **page_name**: RD 設計審查 Copilot 首頁
+
+- **page_name**: Sunny AI Hub Dashboard
 - **route_path**: `/dashboard`
 - **page_type**: dashboard
-- **primary_goal**: 提供專案總覽與快速進入各功能模組的入口
-- **secondary_goal**: 展示近期活動與重要通知
-
-## [USER CONTEXT]
-- **target_user_segment**:
-  - 主要：已登入的 RD 工程師（每日使用）
-  - 次要：PM 查看專案進度
-- **entry_point**:
-  - 登入後直接導向
-  - 從任何頁面點擊 Logo 返回
+- **primary_goal**: 提供學員專案進度總覽與快捷學習入口
+- **secondary_goal**: 展示學習成就激勵持續使用
+- **target_users**:
+  - 主要：已登入的學員（每日使用）
+  - 次要：講師查看學員整體進度
+- **entry_point**: 登入後直接導向 / 點擊 Logo 返回
 - **expected_time_on_page**: 30秒-2分鐘（快速瀏覽後進入具體功能）
 
+---
+
 ## [STRUCTURE: SECTIONS]
+
 1. **welcome_header**
    - section_type: hero
-   - section_purpose: 個人化歡迎訊息與快速統計
+   - section_purpose: 個人化歡迎訊息與本週學習統計
 
 2. **quick_actions**
    - section_type: action_cards
    - section_purpose: 提供最常用功能的快捷入口
 
-3. **active_projects**
-   - section_type: project_list
-   - section_purpose: 顯示進行中的設計審查專案
+3. **active_learning**
+   - section_type: course_list
+   - section_purpose: 顯示進行中的課程與學習進度
 
-4. **recent_analyses**
-   - section_type: history_list
-   - section_purpose: 最近的分析紀錄與結果快速訪問
-
-5. **metrics_overview**
+4. **metrics_overview**
    - section_type: stats_cards
-   - section_purpose: 展示使用統計與效益指標
+   - section_purpose: 展示學習成就統計與趨勢
 
-6. **notifications_panel**
-   - section_type: notification_list
-   - section_purpose: 系統通知與協作訊息
+5. **recent_activity**
+   - section_type: history_list
+   - section_purpose: 最近的學習紀錄與作業提交
+
+---
 
 ## [SECTION COMPONENT SPEC]
 
 ### Section: welcome_header
+
 - **layout**: 全寬單欄，左對齊
 - **elements**:
-  - greeting_text: h1, required, "歡迎回來，{userName}"
-  - date_time: text, required, 當前日期時間
-  - quick_stats: stats_row, required, "今日分析: {count} | 本週節省: {hours}小時"
+  - greeting_text: H1 / required / "歡迎回來，{userName}"
+  - date_time: Body SM / required / 當前日期
+  - quick_stats: Stats Row / required / "本週學習: {hours}小時 | 完成: {count}單元"
 - **states**:
-  - 正常：顯示個人化資訊
-  - loading：顯示 skeleton
-- **copy_constraints**:
-  - 使用者名稱最多 20 字元
+  - default: 顯示個人化資訊
+  - loading: Skeleton（greeting + 數字區）
+- **copy_constraints**: 用戶名稱最多 20 字元
 
 ### Section: quick_actions
-- **layout**: 1行4列卡片網格（桌面）/ 2x2（平板）
-- **elements**:
-  - upload_card: ActionCard, required,
-    - icon: CloudUploadIcon
-    - title: "上傳新設計"
-    - description: "上傳 STEP/BOM 檔案"
-    - action: navigate to `/upload`
-  - review_card: ActionCard, required,
-    - icon: ClipboardCheckIcon
-    - title: "設計審查"
-    - description: "執行多維度審查"
-    - action: navigate to `/review`
-  - compare_card: ActionCard, required,
-    - icon: ScaleIcon
-    - title: "方案比較"
-    - description: "比較設變方案"
-    - action: navigate to `/compare`
-  - knowledge_card: ActionCard, required,
-    - icon: BookOpenIcon
-    - title: "知識庫"
-    - description: "查看案例與專利"
-    - action: navigate to `/knowledge`
-- **states**:
-  - hover: 卡片陰影加深，輕微上移
-  - click: 顯示 loading 狀態
-  - disabled: 灰度顯示（權限不足時）
 
-### Section: active_projects
+- **layout**: 1行4列卡片網格（Desktop）/ 2x2（Tablet）/ 1列（Mobile）
+- **elements**:
+  - course_card: ActionCard / required / icon: BookOpen / "查看課程" / → `/courses`
+  - homework_card: ActionCard / required / icon: Upload / "提交作業" / → `/homework`
+  - community_card: ActionCard / required / icon: Users / "進入社群" / → `/community`
+  - favorites_card: ActionCard / required / icon: Heart / "我的收藏" / → `/favorites`
+- **states**:
+  - default: 白色背景
+  - hover: 邊框變為 Sunny Orange (#F59E0B)，輕微上移 (-2px)
+  - loading: Skeleton card
+  - disabled: 灰度顯示（功能未開放時）
+
+### Section: active_learning
+
 - **layout**: 單欄列表，最多顯示 5 項
 - **elements**:
-  - section_title: h2, required, "進行中專案"
-  - project_items: ProjectRow[], required,
-    - project_name: text, required
-    - status_badge: StatusBadge, required (設計中/審查中/待確認)
-    - progress_bar: ProgressBar, optional
-    - last_updated: text, required
-    - quick_actions: ButtonGroup (檢視/編輯/封存)
-  - view_all_link: Link, required, "查看全部 →"
+  - section_title: H2 / required / "進行中的課程"
+  - course_items: CourseRow[] / required
+    - course_name: Body MD / required
+    - progress_bar: ProgressBar / required / 顯示百分比
+    - last_accessed: Caption / required / "上次學習: {時間}"
+    - continue_btn: Button Secondary / required / "繼續學習"
+  - view_all_link: Link / required / "查看全部課程 →"
 - **states**:
-  - empty: 顯示「尚無進行中專案」+ 新增按鈕
-  - loading: skeleton rows
+  - default: 顯示課程列表
+  - loading: Skeleton rows
+  - empty: "還沒有進行中的課程，立即探索" + CTA「瀏覽課程」
   - error: 錯誤訊息 + 重試按鈕
 
-### Section: recent_analyses
-- **layout**: 時間軸式列表
-- **elements**:
-  - section_title: h2, required, "最近分析"
-  - analysis_items: AnalysisCard[], required,
-    - timestamp: text, required
-    - analysis_type: tag, required (成本分析/重量優化/NVH評估)
-    - summary: text, required, 最多 100 字
-    - result_preview: MiniChart, optional
-    - open_button: IconButton, required
-- **states**:
-  - 展開：顯示詳細圖表
-  - 收合：僅顯示摘要
-- **copy_constraints**:
-  - 摘要保持在 2 行以內
-
 ### Section: metrics_overview
+
 - **layout**: 1行4列指標卡片
 - **elements**:
-  - total_analyses: MetricCard, required,
-    - label: "總分析次數"
-    - value: number
-    - trend: percentage (vs 上月)
-  - time_saved: MetricCard, required,
-    - label: "節省時間"
-    - value: "{hours} 小時"
-    - trend: percentage
-  - cost_reduction: MetricCard, required,
-    - label: "成本降低"
-    - value: currency
-    - trend: percentage
-  - success_rate: MetricCard, required,
-    - label: "方案採用率"
-    - value: percentage
-    - trend: up/down arrow
+  - total_courses: MetricCard / required / "完成課程" + 數字 + vs 上月趨勢
+  - total_hours: MetricCard / required / "學習時數" + 數字 + 趨勢
+  - streak_days: MetricCard / required / "連續天數" + 數字
+  - skill_radar: RadarChart / optional / 技術能力雷達圖
 - **states**:
-  - loading: 顯示 skeleton
-  - hover: 顯示詳細說明 tooltip
+  - default: 顯示數值 + 趨勢箭頭
+  - loading: Skeleton
+  - hover: Tooltip 顯示詳細說明
 
-### Section: notifications_panel
-- **layout**: 右側固定面板（可收合）
+### Section: recent_activity
+
+- **layout**: 時間軸式列表，最多 10 項
 - **elements**:
-  - panel_header: h3, required, "通知"
-  - notification_list: NotificationItem[], required,
-    - icon: Icon, required (依類型)
-    - message: text, required
-    - time_ago: text, required
-    - action_button: Button, optional
-  - mark_all_read: TextButton, required
+  - section_title: H2 / required / "最近活動"
+  - activity_items: ActivityRow[] / required
+    - timestamp: Caption / required
+    - activity_type: Badge / required (完成課程/提交作業/社群發言)
+    - summary: Body SM / required / 最多 80 字
 - **states**:
-  - 未讀：藍點標示
-  - 已讀：正常顯示
-  - 空：顯示「無新通知」
+  - default: 顯示活動列表
+  - loading: Skeleton
+  - empty: "還沒有活動紀錄"
+- **copy_constraints**: 摘要保持在 2 行以內
+
+---
 
 ## [INTERACTION & STATE FLOW]
-- **主要互動流程**：
-  1. 頁面載入 → 獲取使用者資料與專案列表
-  2. 點擊快捷卡片 → 導航至對應功能
-  3. 專案列表互動 → 快速操作或進入詳情
-  4. 通知互動 → 標記已讀或執行操作
 
-- **資料更新策略**：
-  - 專案列表：每 30 秒自動更新
-  - 通知：WebSocket 即時推送
-  - 指標數據：每 5 分鐘更新
+### 主要互動流程
 
-- **RWD 行為差異**：
-  - Desktop (>1280px)：完整 4 欄布局
-  - Tablet (768-1280px)：2 欄布局，通知面板預設收合
-  - Mobile (<768px)：不支援（提示使用桌面版）
+1. 頁面載入 → 取得學員資料 + 課程列表 + 指標數據
+2. 點擊快捷卡片 → 導航至對應功能頁
+3. 點擊「繼續學習」→ 進入課程播放頁
+4. 點擊指標卡片 → 展開詳細報表
+
+### RWD 行為差異
+
+| 斷點 | 佈局 | 差異說明 |
+|------|------|---------|
+| Desktop (>1280px) | 完整 4 欄佈局 + 左側 Sidebar 展開 | 完整體驗 |
+| Tablet (768-1280px) | 2 欄佈局 + Sidebar 收合 | 指標卡片 2x2 |
+| Mobile (<768px) | 單欄堆疊 + 底部導航 | Sidebar 消失，改底部 Tab |
+
+### 資料更新策略
+
+- 課程進度：每次返回頁面時更新
+- 指標數據：每 5 分鐘更新
+- 活動紀錄：即時更新（新活動 prepend）
+
+---
 
 ## [DATA & API]
+
 - **uses_api**: true
 - **endpoints**:
-  - GET `/api/dashboard/overview` - 取得儀表板資料
-  - GET `/api/projects/active` - 取得進行中專案
-  - GET `/api/analyses/recent` - 取得最近分析
-  - GET `/api/metrics/summary` - 取得統計指標
-  - GET `/api/notifications` - 取得通知列表
-- **error cases**:
-  - 網路錯誤：顯示離線模式，使用快取資料
-  - API 錯誤：顯示錯誤訊息，提供重試
+  - GET `/api/dashboard/overview` — 取得儀表板綜合資料
+  - GET `/api/courses/active` — 取得進行中課程
+  - GET `/api/metrics/learning` — 取得學習統計指標
+  - GET `/api/activity/recent` — 取得最近活動
+- **error_cases**:
+  - 網路錯誤：顯示離線提示，使用快取資料
+  - API 錯誤：顯示友善錯誤訊息 + 重試按鈕
   - 權限不足：導向登入頁
 
+---
+
 ## [EXCEPTION TO GLOBAL RULES]
+
 無特殊例外，完全遵循 Global System Prompt 規範。
 
+---
+
 ## [ACCEPTANCE CRITERIA]
+
+- [ ] 所有 5 個 Section 功能正常
 - [ ] 所有快捷操作可正常導航
-- [ ] 專案列表正確顯示狀態與進度
-- [ ] 資料自動更新機制正常運作
+- [ ] 課程進度條正確顯示百分比
+- [ ] 指標數據含趨勢箭頭
+- [ ] Loading / Error / Empty 三態完備
+- [ ] RWD 三個斷點行為正確
 - [ ] 響應時間 < 2 秒
-- [ ] 符合 WCAG 2.1 AA 標準
+- [ ] 符合 Design System 視覺規範
