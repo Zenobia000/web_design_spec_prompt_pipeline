@@ -38,10 +38,18 @@ prompt_architect_pipeline/
 │   ├── website_recipes.md                 ← 10 種網站配方 + Reference + Lovable 提示詞
 │   └── prereq_document_checklist.md       ← 前置文件檢核清單（P0/P1/P2）
 │
-└── guides/                                 ← 指南層
-    ├── implementation_guide.md            ← 實施指南
-    ├── quality_checklist.md               ← QA 清單
-    └── vibe_coding_build_strategy.md      ← 建置策略（新手從這裡開始）
+├── guides/                                 ← 指南層
+│   ├── implementation_guide.md            ← 實施指南
+│   ├── quality_checklist.md               ← QA 清單
+│   └── vibe_coding_build_strategy.md      ← 建置策略（新手從這裡開始）
+│
+└── design-system-specs/                   ← 工業化設計系統規格（Figma 對應）
+    ├── AI_DESIGN_INDUSTRIAL_PLAYBOOK.md  ← 完整戰法：Pencil + Figma MCP + Claude Code
+    ├── 00_foundations_spec.md             ← Grid / Color / Typo / Spacing / Tokens
+    ├── 01_components_spec.md             ← Button / Input / Table / Modal 元件庫規格
+    ├── 02_patterns_spec.md               ← Form / Table / Nav / Feedback 互動模式
+    ├── 03_templates_spec.md              ← Dashboard / List / Detail / Settings 頁面模板
+    └── 99_documentation_spec.md          ← Do/Don't / QA / Change Log / 治理規範
 ```
 
 ## 快速上手
@@ -55,6 +63,13 @@ prompt_architect_pipeline/
 5. 填 [`global/SYSTEM_DOCUMENT_SPEC.md`](global/SYSTEM_DOCUMENT_SPEC.md) — 建立你的 Design Tokens
 6. 按 SOP Step 4-7 執行
 
+### 路徑 C：我要用 AI 工業化設計流程（Pencil + Figma MCP + Claude Code）
+
+1. 讀 [`design-system-specs/AI_DESIGN_INDUSTRIAL_PLAYBOOK.md`](design-system-specs/AI_DESIGN_INDUSTRIAL_PLAYBOOK.md) — 完整戰法
+2. 依序建立 [`00_foundations`](design-system-specs/00_foundations_spec.md) → [`01_components`](design-system-specs/01_components_spec.md) → [`02_patterns`](design-system-specs/02_patterns_spec.md)
+3. 設定 Figma MCP + Pencil MCP 環境
+4. 用 Claude Code 讀設計檔 + 規格文件 → 產出程式碼
+
 ### 路徑 B：我已經有 Design System，要做一頁
 
 1. 看範例 `global/01_sunny_brand_system.md` → `pages/01_dashboard.md` → `assembly/01_dashboard_integrated.md`
@@ -63,4 +78,4 @@ prompt_architect_pipeline/
 4. 將結果貼到 Lovable / Claude 執行
 
 ---
-最後更新：2025-03-02 | 維護：Prompt Architect Team
+最後更新：2026-03-17 | 維護：Prompt Architect Team
